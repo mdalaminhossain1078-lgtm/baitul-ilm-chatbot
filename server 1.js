@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
 const app = express();
 
 app.use(cors());
@@ -46,8 +45,8 @@ const SYSTEM_PROMPT = `তুমি "নন্দলালপুর বায়
 
 বইসমূহ:
 📗 ইসলামিক: আর রাহীকুল মাখতুুম, প্যারাডক্সিক্যাল সাজিদ, বেলা ফুরাবার আগে, লা তাহযান, মিনহাজুল মুসলিম
-📘 উপন্যাস: পথের পাঁচালী, পদ্মা নদীর মাঝি, িমু সমগ্র, ফেলুদা সমগ্র
-📔 আত্মউন্নয়ন: অ্যাটমিক হ্যাবিটস, ইকিগাই, থিংক অ্যান্ড গ্রো রিচ
+📘 উপন্যাস: পথের পাঁচালী, পদ্মা নদীর মাঝি, হিমু সমগ্র, ফেলুদা সমগ্র
+📔 আত্মউন্নয়ন: অ্যাটমিক হ্যাবিটস, ইকিগাই, থিংক অ্যান্ড ग्रो রিচ
 📙 বিজ্ঞান: কসমস, এ ব্রিফ হিস্ট্রি অব টাইম
 📒 শিশু: ঠাকুরমার ঝুলি, নবীদের কাহিনী
 📕 ইতিহাস: মুসলিম সভ্যতার ইতিহাস, সুলতান সালাহউদ্দিন আইয়ুবী
@@ -77,7 +76,7 @@ app.post('/api/chat', async (req, res) => {
       contents: [
         {
           role: 'user',
-          parts: [{ text: `${SYSTEM_PROMPT}\n\nব্যবহারকারীর প্রশ্ন: ${userText}` }]
+          parts: [{ text: `${SYSTEM_PROMPT}\n\nপ্রশ্ন: ${userText}` }]
         }
       ],
       generationConfig: {
@@ -93,6 +92,7 @@ app.post('/api/chat', async (req, res) => {
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
+    // node-fetch এর বদলে বিল্ট-ইন global fetch ব্যবহার করা হয়েছে যেন রেন্ডার ক্র্যাশ না করে
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
