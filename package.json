@@ -1,0 +1,13 @@
+{
+  "name": "baitul-ilm-chatbot",
+  "version": "1.0.0",
+  "main": "server-1.js",
+  "scripts": {
+    "start": "node server-1.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.9"
+  }
+}
