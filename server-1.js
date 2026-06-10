@@ -12,7 +12,7 @@ app.post('/api/chat', async (req, res) => {
     const { messages, system } = req.body;
 
     const body = {
-      model: 'meta-llama/llama-3.1-8b-instruct',
+      model: 'google/gemma-2-9b-it:free',
       max_tokens: 1000,
       messages: [
         { role: 'system', content: system },
