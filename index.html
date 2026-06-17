@@ -3,276 +3,411 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>নন্দলালপুর বায়তুল ইলম ইসলামিক পাঠাগার — AI সহায়তা</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<title>নন্দলালপুর বায়তুল ইলম রক্তসেবা</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: #f0f4f0; }
-@keyframes b { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f0;color:#1a2a1a;min-height:100vh}
+.header{background:linear-gradient(135deg,#1a4a1a,#2d6a2d);padding:20px 16px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'☪';position:absolute;font-size:120px;opacity:.05;top:-20px;right:-10px}
+.header-title{font-size:18px;color:#c9a84c;font-weight:700;margin-bottom:2px}
+.header-sub{font-size:12px;color:#a0c8a0}
+.blood-icon{font-size:36px;margin-bottom:8px}
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e0e8e0}
+.tab{flex:1;padding:14px 8px;text-align:center;font-size:12px;color:#6a8a6a;cursor:pointer;border-bottom:3px solid transparent}
+.tab.active{color:#1a4a1a;border-bottom-color:#c9a84c;font-weight:700}
+.tab-icon{font-size:18px;display:block;margin-bottom:3px}
+.section{display:none;padding:16px}
+.section.active{display:block}
+.stats-row{display:flex;gap:8px;margin-bottom:14px}
+.stat-box{flex:1;background:#fff;border-radius:10px;padding:12px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.stat-num{font-size:20px;font-weight:700;color:#c0392b}
+.stat-label{font-size:10px;color:#6a8a6a;margin-top:2px}
+.info-box{background:linear-gradient(135deg,#fff9e6,#fff3cc);border:1px solid #e8d080;border-radius:10px;padding:12px;margin-bottom:14px;font-size:13px;color:#6a5a00;line-height:1.6}
+.section-label{font-size:13px;color:#4a6a4a;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #d0e0d0}
+.blood-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.blood-btn{background:#fff;border:2px solid #e0e0e0;border-radius:10px;padding:12px 4px;text-align:center;cursor:pointer}
+.blood-btn.active{border-color:#c0392b;background:#fff5f5}
+.blood-type{font-size:16px;font-weight:700;color:#c0392b}
+.blood-count{font-size:10px;color:#888;margin-top:2px}
+.donor-card{background:#fff;border:1px solid #e8f0e8;border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.donor-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.blood-badge{background:#c0392b;color:#fff;border-radius:8px;padding:4px 10px;font-size:14px;font-weight:700;min-width:44px;text-align:center}
+.donor-name{font-size:15px;font-weight:700;flex:1}
+.donor-area{font-size:12px;color:#6a8a6a;margin-bottom:10px}
+.donor-actions{display:flex;gap:8px}
+.btn-call{flex:1;padding:10px;background:linear-gradient(135deg,#1a4a1a,#2d6a2d);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;display:block}
+.btn-wa{flex:1;padding:10px;background:linear-gradient(135deg,#075e54,#128c7e);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;display:block}
+.empty-state{text-align:center;padding:40px 20px;color:#8aaa8a}
+.empty-state div{font-size:40px;margin-bottom:8px}
+.loading{text-align:center;padding:30px;color:#6a8a6a}
+
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:12px;color:#4a6a4a;margin-bottom:6px;font-weight:600}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px;border:1.5px solid #d0e0d0;border-radius:8px;font-size:14px;color:#1a2a1a;background:#f8fbf8;outline:none;font-family:inherit}
+.fg textarea{min-height:70px;resize:vertical}
+.fg input:focus,.fg select:focus{border-color:#2d6a2d;background:#fff}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card-title{font-size:15px;font-weight:700;margin-bottom:12px}
+.btn-submit{width:100%;padding:14px;background:linear-gradient(135deg,#c0392b,#922b21);border:none;border-radius:10px;color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.btn-submit.green{background:linear-gradient(135deg,#1a4a1a,#2d6a2d)}
+.btn-submit:disabled{opacity:.6}
+
+.success-box{display:none;background:linear-gradient(135deg,#1a4a1a,#2d6a2d);border-radius:16px;padding:30px 20px;text-align:center;color:#fff;margin-bottom:16px}
+.success-icon{font-size:48px;margin-bottom:12px}
+.success-box h3{font-size:18px;color:#c9a84c;margin-bottom:8px}
+.ayat{font-size:13px;color:#a0d0a0;line-height:1.7;margin:12px 0;font-style:italic}
+.success-box p{font-size:13px;color:#c0e0c0;line-height:1.6}
+
+.admin-panel{background:#fff;border:2px dashed #1a4a1a;border-radius:12px;padding:16px;margin-top:16px;display:none}
+.admin-title{font-size:13px;font-weight:700;color:#1a4a1a;margin-bottom:12px;text-align:center;border-bottom:2px dashed #1a4a1a;padding-bottom:8px}
+.admin-btn-grid{display:grid;grid-template-columns:1fr;gap:8px}
+.btn-admin-act{width:100%;padding:11px;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:block}
+.btn-wagroup{background:#25d366}
+.btn-messenger{background:#0084ff}
+.btn-sms{background:#e67e22}
+.btn-callall{background:#d35400}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.loader{border:3px solid #f3f3f3;border-top:3px solid #ef4444;border-radius:50%;width:16px;height:16px;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.call-list{margin-top:12px;display:none;background:#fff5f5;border:1px solid #ffcccc;border-radius:8px;padding:10px}
+.call-list-title{font-size:12px;font-weight:bold;color:#c0392b;margin-bottom:8px;text-align:center;border-bottom:1px dashed #ffcccc;padding-bottom:4px}
+.call-row{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:8px 12px;margin-bottom:6px;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:4px solid #d35400}
+.call-row-name{font-weight:700;font-size:13px;color:#333}
+.call-row-area{font-size:11px;color:#666}
+.call-row-btn{background:#27ae60;color:#fff;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:700;text-decoration:none}
+
+.section-label2{font-size:13px;color:#4a6a4a;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #d0e0d0}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a4a1a;color:#c9a84c;padding:10px 24px;border-radius:20px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useRef } = React;
-const G = "#155d32", GL = "#1e8449", GD = "#0a3d20", GO = "#f5d068";
 
-const SYSTEM_PROMPT = `তুমি "নন্দলালপুর বায়তুল ইলম ইসলামিক পাঠাগার"-এর একজন বিনয়ী ও সহায়ক AI সহকারী। সবসময় বাংলায় উত্তর দেবে।
+<div class="header">
+  <div class="blood-icon">🩸</div>
+  <div class="header-title">নন্দলালপুর বায়তুল ইলম রক্তসেবা</div>
+  <div class="header-sub">এসো আলোর পথে • রক্তদান মহাদান</div>
+</div>
 
-পাঠাগার পরিচিতি: নন্দলালপুর বায়তুল ইলম ইসলামিক পাঠাগার। প্রতিষ্ঠা: ২০২৬। উন্মুক্ত ও অলাভজনক।
-স্লোগান: ❝ ইলমই আলো, ইলমই শক্তি ❞
-ঠিকানা: নন্দলালপুর নতুন বাজার সংলগ্ন, পোরজনা, শাহজাদপুর, সিরাজগঞ্জ।
-যোগাযোগ: মোবাইল/WhatsApp: 01739-501078 | Email: mdalaminhossain1078@gmail.com
-ফেসবুক: https://www.facebook.com/share/18BTtuUjG4/
-ওয়েবসাইট: https://nondolalpurbaitulilmislamicpathagar.netlify.app/
-নিবন্ধন ফর্ম: https://docs.google.com/forms/d/e/1FAIpQLSfHTdyT5FpE_YEaXJkB196BminJn8A_vYbFk3qCnl16rZIwxw/viewform
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('find')"><span class="tab-icon">🔍</span>রক্ত খুঁজুন</div>
+  <div class="tab" onclick="switchTab('request')"><span class="tab-icon">🆘</span>অনুরোধ</div>
+  <div class="tab" onclick="switchTab('register')"><span class="tab-icon">✍️</span>নিবন্ধন</div>
+</div>
 
-সদস্য হওয়ার শর্ত:
-✅ যেকোনো বয়সের আগ্রহী ব্যক্তি সদস্য হতে পারবেন
-✅ সদস্যপদ সম্পূর্ণ বিনামূল্যে
-✅ নিবন্ধন ফর্ম পূরণ করতে হবে
-✅ পাঠাগারের নিয়মাবলি মেনে চলতে হবে
-🚫 মিথ্যা তথ্য দিয়ে সদস্যপদ নেওয়া যাবে না
+<!-- রক্ত খুঁজুন -->
+<div class="section active" id="sec-find">
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num" id="totalCount">-</div><div class="stat-label">মোট ডোনার</div></div>
+    <div class="stat-box"><div class="stat-num" id="availCount">-</div><div class="stat-label">উপলব্ধ</div></div>
+    <div class="stat-box"><div class="stat-num" id="groupCount">-</div><div class="stat-label">গ্রুপ সংখ্যা</div></div>
+  </div>
+  <div class="info-box">💡 রক্তের গ্রুপ চাপুন — ডোনারের সাথে সরাসরি যোগাযোগ করুন।</div>
+  <div class="section-label">রক্তের গ্রুপ সিলেক্ট করুন:</div>
+  <div class="blood-grid" id="bloodGrid"></div>
+  <div id="donorSection"><div class="empty-state"><div>👆</div><p>উপরে রক্তের গ্রুপ চাপুন</p></div></div>
+</div>
 
-সদস্যপদ বাতিলের শর্ত:
-🚫 বই হারালে বা নষ্ট করলে ক্ষতিপূরণ না দিলে
-🚫 বারবার নির্ধারিত সময়ে বই ফেরত না দিলে
-🚫 পাঠাগারের পরিবেশ বিশৃঙ্খল করলে
-🚫 নিয়ম বারবার ভঙ্গ করলে
-🚫 মিথ্যা তথ্য দিয়ে সদস্যপদ নিলে
+<!-- অনুরোধ -->
+<div class="section" id="sec-request">
 
-দাতা সদস্য (যেকোনো একটি):
-💚 ২০০০ টাকা নগদ অনুদান
-💚 ২০০০ টাকার বই দান
-💚 ২০০০ টাকার শিক্ষা উপকরণ
-🎖️ সুবিধা: আজীবন দাতা সদস্য | সম্মানিত অবস্থান | কমিটিতে মতামত দেওয়ার সুযোগ
+  <div class="success-box" id="requestSuccess">
+    <div class="success-icon">🤲</div>
+    <h3>আলহামদুলিল্লাহ!</h3>
+    <div class="ayat">"যে ব্যক্তি একটি প্রাণ বাঁচায়,<br>সে যেন সমগ্র মানবজাতিকে বাঁচাল।"<br>— আল কুরআন (৫:৩২)</div>
+    <p>আপনার অনুরোধ সিস্টেমে জমা হয়েছে।<br>আল্লাহ আপনার রোগীকে সুস্থ করুন। আমীন। 🤍</p>
+  </div>
 
-বই ধার নেওয়ার শর্ত:
-📌 পাঠাগারের সদস্য হতে হবে
-📌 বই যত্নসহকারে ব্যবহার করতে হবে
-📌 নির্ধারিত সময়ে ফেরত দিতে হবে
-🚫 বই অন্যকে দেওয়া যাবে না
-🚫 বই নষ্ট করলে ক্ষতিপূরণ দিতে হবে
-
-বইসমূহ:
-📗 ইসলামিক: আর রাহীকুল মাখতুম, প্যারাডক্সিক্যাল সাজিদ, বেলা ফুরাবার আগে, লা তাহযান, মিনহাজুল মুসলিম
-📘 উপন্যাস: পথের পাঁচালী, পদ্মা নদীর মাঝি, হিমু সমগ্র, ফেলুদা সমগ্র
-📔 আত্মউন্নয়ন: অ্যাটমিক হ্যাবিটস, ইকিগাই, থিংক অ্যান্ড গ্রো রিচ
-📙 বিজ্ঞান: কসমস, এ ব্রিফ হিস্ট্রি অব টাইম
-📒 শিশু: ঠাকুরমার ঝুলি, নবীদের কাহিনী
-📕 ইতিহাস: মুসলিম সভ্যতার ইতিহাস, সুলতান সালাহউদ্দিন আইয়ুবী
-🧠 শিক্ষামূলক: সময় ব্যবস্থাপনা, স্টাডি স্মার্ট
-
-রক্তদান: "এশো আলোর পথে" সংগঠন। গ্রুপ: https://m.me/j/AbabI4MawYglGQ5P/
-
-উত্তরের নিয়ম:
-- মার্জিত, প্রবাহমান ও আন্তরিক বাংলায় লেখো
-- কখনো কাঁচা URL টেক্সটে লিখবে না, বরং বলবে "নিচের কার্ড থেকে যোগাযোগ করুন"
-- সর্বোচ্চ ৫ লাইন
-- শেষে সুন্দর একটি শুভেচ্ছা বা দোয়ার বাক্য যোগ করো
-- ইসলামিক শব্দ প্রাসঙ্গিকভাবে ব্যবহার করো`;
-
-const CONTACT_LINKS = [
-  { href: "tel:01739501078", bg: G, icon: "📱", label: "কল করুন", sub: "01739-501078" },
-  { href: "https://wa.me/8801739501078", bg: "#25d366", icon: "💬", label: "WhatsApp", sub: "মেসেজ করুন" },
-  { href: "https://www.facebook.com/share/18BTtuUjG4/", bg: "#1877f2", icon: "📘", label: "ফেসবুক পেজ", sub: "মেসেজ ও ফলো করুন" },
-  { href: "https://maps.app.goo.gl/cdVczmFj6rSVmP1L8", bg: "#e74c3c", icon: "🗺️", label: "Google Maps", sub: "অবস্থান দেখুন" },
-  { href: "https://nondolalpurbaitulilmislamicpathagar.netlify.app/", bg: "#2c3e50", icon: "🌐", label: "ওয়েবসাইট", sub: "সব তথ্য পাবেন" },
-  { href: "mailto:mdalaminhossain1078@gmail.com", bg: "#ea4335", icon: "📧", label: "Gmail", sub: "mdalaminhossain1078@gmail.com" },
-];
-
-function ContactCard() {
-  return (
-    <div style={{marginLeft:34,marginTop:6,background:"#fff",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 10px rgba(0,0,0,0.12)",maxWidth:"88%",border:"1px solid #d8edd8"}}>
-      <div style={{background:`linear-gradient(135deg,${GD},${G})`,padding:"12px 14px"}}>
-        <div style={{fontSize:13.5,fontWeight:700,color:GO,marginBottom:4}}>🌿 আমাদের সাথে যোগাযোগ করুন</div>
-        <div style={{fontSize:11.5,color:"rgba(255,255,255,0.85)",lineHeight:1.6}}>আপনার যেকোনো জিজ্ঞাসা, পরামর্শ বা সহযোগিতার জন্য নিচের যেকোনো মাধ্যমে যুক্ত হন। ইনশাআল্লাহ আমরা সাড়া দিতে সদা প্রস্তুত। 🤝</div>
+  <div id="requestForm">
+    <div class="card">
+      <div class="card-title">🆘 জরুরি রক্তের অনুরোধ</div>
+      <div class="fg"><label>রোগীর নাম *</label><input type="text" id="patientName" placeholder="রোগীর নাম লিখুন"></div>
+      <div class="fg"><label>প্রয়োজনীয় রক্তের গ্রুপ *</label>
+        <select id="reqBlood">
+          <option value="">সিলেক্ট করুন</option>
+          <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+        </select>
       </div>
-      <div style={{padding:"10px 12px",display:"flex",flexDirection:"column",gap:9}}>
-        {CONTACT_LINKS.map((l,i) => (
-          <a key={i} href={l.href} target={l.href.startsWith("tel")||l.href.startsWith("mailto")?"_self":"_blank"} rel="noopener noreferrer"
-            style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",background:l.bg,borderRadius:12,textDecoration:"none",color:"#fff",boxShadow:"0 2px 6px rgba(0,0,0,0.15)"}}>
-            <span style={{fontSize:22,flexShrink:0}}>{l.icon}</span>
-            <div>
-              <div style={{fontWeight:700,fontSize:13.5}}>{l.label}</div>
-              <div style={{fontSize:11,opacity:0.85,marginTop:1}}>{l.sub}</div>
-            </div>
-          </a>
-        ))}
-      </div>
-      <div style={{background:"#f9fdf9",padding:"10px 14px",borderTop:"1px solid #e0f0e8",fontSize:11.5,color:"#4a7a4a",textAlign:"center",lineHeight:1.6}}>
-        ❝ জ্ঞান অন্বেষণে আমরা আপনার পাশে আছি ❞ 📚
-      </div>
+      <div class="fg"><label>হাসপাতাল/স্থান *</label><input type="text" id="reqHospital" placeholder="যেমন: শাহজাদপুর সরকারি হাসপাতাল"></div>
+      <div class="fg"><label>আপনার মোবাইল নম্বর *</label><input type="tel" id="reqPhone" placeholder="01XXXXXXXXX"></div>
+      <div class="fg"><label>বিস্তারিত (ঐচ্ছিক)</label><textarea id="reqMessage" placeholder="কত ব্যাগ লাগবে বা কখন লাগবে"></textarea></div>
+      <button class="btn-submit" id="submitBtn" onclick="submitRequest()">🆘 অনুরোধ পাঠান</button>
     </div>
-  );
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-panel" id="adminControlPanel">
+    <div class="admin-title" id="adminPanelTitle">🛠️ অ্যাডমিন অ্যাকশন প্যানেল</div>
+    <div class="admin-btn-grid">
+      <button class="btn-admin-act btn-wagroup" id="waGroupBtn" onclick="shareToWhatsApp()">🟢 হোয়াটসঅ্যাপ গ্রুপে পাঠান</button>
+      <div class="row2">
+        <button class="btn-admin-act btn-messenger" onclick="shareToMessenger()">💬 মেসেঞ্জার গ্রুপ</button>
+        <button class="btn-admin-act btn-sms" id="smsBlastBtn" onclick="blastNormalSMS()">📱 সিমের SMS</button>
+      </div>
+      <button class="btn-admin-act btn-callall" id="callPanelBtn" onclick="showEmergencyCallPanel()">🚨 সরাসরি কল করুন</button>
+    </div>
+    <div class="call-list" id="emergencyCallList">
+      <div class="call-list-title" id="callListTitle">📞 ডোনারদের জরুরি তালিকা</div>
+      <div id="callListContainer"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- নিবন্ধন -->
+<div class="section" id="sec-register">
+  <div class="success-box" id="registerSuccess">
+    <div class="success-icon">❤️</div>
+    <h3>জাযাকাল্লাহু খাইরান!</h3>
+    <div class="ayat">"রক্তদান করা একটি মহৎ কাজ।<br>আল্লাহ আপনার এই নেক আমল কবুল করুন।"</div>
+    <p>আপনার নিবন্ধন সম্পন্ন হয়েছে।<br>আপনি এখন একজন রক্তবীর! 🩸</p>
+  </div>
+  <div id="registerForm">
+    <div class="card">
+      <div class="card-title">✍️ রক্তदाता নিবন্ধন</div>
+      <div class="fg"><label>আপনার নাম *</label><input type="text" id="donorName" placeholder="আপনার পূর্ণ নাম"></div>
+      <div class="fg"><label>রক্তের গ্রুপ *</label>
+        <select id="donorBlood">
+          <option value="">সিলেক্ট করুন</option>
+          <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+        </select>
+      </div>
+      <div class="fg"><label>মোবাইল নম্বর *</label><input type="tel" id="donorPhone" placeholder="01XXXXXXXXX"></div>
+      <div class="fg"><label>এলাকা / মহল্লা *</label><input type="text" id="donorArea" placeholder="যেমন: নন্দলালপুর"></div>
+      <button class="btn-submit green" id="regSubmitBtn" onclick="submitDonor()">✅ নিবন্ধন করুন</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== CONFIG =====
+const GOOGLE_SHEET_API = 'https://script.google.com/macros/s/AKfycbxuJXhmmt6cVYMObpHMV5dpIQMHDMDxwiJAZ__8IC3Yqq2IdPyj-OJ2H0mPNOpKEiY9HA/exec';
+const MESSENGER_GROUP_LINK = 'https://m.me/j/AbabI4MawYglGQ5P/?send_source=gc%3Acopy_invite_link_c';
+const ADMIN_PHONE = '8801739501078';
+
+// ===== ১ থেকে ৮টি নির্দিষ্ট লিংক আপডেট সম্পন্ন হলো =====
+const WHATSAPP_GROUPS = {
+  'A+':  'https://chat.whatsapp.com/GHxHxtq2k8U5IWqXNdjHk4',
+  'A-':  'https://chat.whatsapp.com/HOnMlHJEsQ74EbCNCHbAY9',
+  'B+':  'https://chat.whatsapp.com/It7vujccL2N8iIpJjQmCm9',
+  'B-':  'https://chat.whatsapp.com/GzLH7uDZDcgGtR85kOfXGI',
+  'AB+': 'https://chat.whatsapp.com/GrVh7WVTX9h7VC1xauMlFS',
+  'O-':  'https://chat.whatsapp.com/Is7Mh1ti815B4USJOSvLlr',
+  'O+':  'https://chat.whatsapp.com/HdoG1QBNsduBs1Ge45DlM1',
+  'AB-': 'https://chat.whatsapp.com/ETdgjncgFpUBbxF56j8rhF'
+};
+
+const bloodTypes = ['A+','A-','B+','B-','O+','O-','AB+','AB-'];
+let donors = [];
+let activeBlood = '';
+let currentRequest = null;
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['find','request','register'][i]===name));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  if (name === 'find' && donors.length === 0) loadDonorsForFind();
 }
 
-function BloodCard() {
-  return (
-    <div style={{marginLeft:34,marginTop:6,background:"#fff",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.1)",maxWidth:"85%",border:"1px solid #ffd0d0"}}>
-      <div style={{background:"linear-gradient(135deg,#c0392b,#e74c3c)",padding:"12px 14px"}}>
-        <div style={{fontSize:13.5,fontWeight:700,color:"#fff",marginBottom:3}}>🩸 এশো আলোর পথে</div>
-        <div style={{fontSize:11.5,color:"rgba(255,255,255,0.85)",lineHeight:1.5}}>রক্তদান মহৎ কাজ। আপনার একটি পদক্ষেপ বাঁচাতে পারে একটি জীবন। আমাদের সাথে যুক্ত হন।</div>
-      </div>
-      <div style={{padding:"10px 12px",display:"flex",flexDirection:"column",gap:9}}>
-        <a href="https://m.me/j/AbabI4MawYglGQ5P/" target="_blank" rel="noopener noreferrer"
-          style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",background:"#1877f2",borderRadius:12,textDecoration:"none",color:"#fff",boxShadow:"0 2px 6px rgba(0,0,0,0.15)"}}>
-          <span style={{fontSize:22}}>💬</span>
-          <div><div style={{fontWeight:700,fontSize:13.5}}>Messenger গ্রুপে যোগ দিন</div><div style={{fontSize:11,opacity:0.85}}>রক্তদাতা ও গ্রহীতাদের গ্রুপ</div></div>
-        </a>
-        <a href="tel:01739501078" style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",background:G,borderRadius:12,textDecoration:"none",color:"#fff",boxShadow:"0 2px 6px rgba(0,0,0,0.15)"}}>
-          <span style={{fontSize:22}}>📱</span>
-          <div><div style={{fontWeight:700,fontSize:13.5}}>কল করুন</div><div style={{fontSize:11,opacity:0.85}}>01739-501078</div></div>
-        </a>
-      </div>
-      <div style={{background:"#fff7f7",padding:"9px 14px",borderTop:"1px solid #ffd0d0",fontSize:11.5,color:"#c0392b",textAlign:"center"}}>
-        ❝ রক্ত দিন, জীবন বাঁচান ❞ 🩸
-      </div>
-    </div>
-  );
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function App() {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const chatRef = useRef(null);
+// ===== রক্ত খুঁজুন ট্যাব — Google Sheet থেকে লোড =====
+async function loadDonorsForFind() {
+  document.getElementById('donorSection').innerHTML = '<div class="loading">⏳ লোড হচ্ছে...</div>';
+  try {
+    const res = await fetch(GOOGLE_SHEET_API);
+    donors = await res.json();
+  } catch(e) { donors = []; }
+  updateStats();
+  renderGrid();
+  document.getElementById('donorSection').innerHTML = '<div class="empty-state"><div>👆</div><p>উপরে রক্তের গ্রুপ চাপুন</p></div>';
+}
 
-  useEffect(() => {
-    if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
-  }, [messages, loading]);
+function updateStats() {
+  const validDonors = donors.filter(d => d.name && d.blood);
+  const groups = new Set(validDonors.map(d => d.blood.toString().trim().toUpperCase())).size;
+  document.getElementById('totalCount').textContent = validDonors.length;
+  document.getElementById('availCount').textContent = validDonors.length;
+  document.getElementById('groupCount').textContent = groups;
+}
 
-  useEffect(() => {
-    setTimeout(() => {
-      setMessages([{
-        role:"bot",
-        text:"আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ! 🌙\n\nনন্দলালপুর বায়তুল ইলম ইসলামিক পাঠাগারে আপনাকে স্বাগতম! 📚\n\n❝ ইলমই আলো, ইলমই শক্তি ❞\n\nআপনার যেকোনো জিজ্ঞাসায় আমরা সাহায্য করতে প্রস্তুত। ইনশাআল্লাহ সাথে সাথে জবাব পাবেন।",
-        sugg:["👤 সদস্য হতে চাই","📚 বইসমূহ দেখুন","📍 ঠিকানা জানুন","📞 যোগাযোগ করুন"]
-      }]);
-    }, 800);
-  }, []);
-
-  const chips = [
-    ["📖 পরিচিতি","পাঠাগার সম্পর্কে জানতে চাই"],
-    ["👤 সদস্যপদ","সদস্য হওয়ার শর্ত কী?"],
-    ["📚 বইসমূহ","কী কী বই আছে?"],
-    ["📍 ঠিকানা","পাঠাগার কোথায়?"],
-    ["📞 যোগাযোগ","যোগাযোগ করতে চাই"],
-    ["🩸 রক্তদান","রক্তদান সম্পর্কে জানতে চাই"],
-    ["🎁 বই দান","বই দান করতে চাই"],
-    ["💚 দাতা সদস্য","দাতা সদস্য হওয়ার শর্ত কী?"],
-  ];
-
-  function linkify(text) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.split(urlRegex).map((part,i) =>
-      part.match(/^https?:\/\//)
-        ? <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{color:"#1565c0",textDecoration:"underline",wordBreak:"break-all",fontWeight:500}}>{part}</a>
-        : <span key={i}>{part}</span>
-    );
-  }
-
-  async function send(text) {
-    if (!text.trim() || loading) return;
-    const newMsgs = [...messages, {role:"user",text}];
-    setMessages(newMsgs);
-    setInput("");
-    setLoading(true);
-    try {
-      const res = await fetch("https://baitul-ilm-chatbot.onrender.com/api/chat", {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          system:SYSTEM_PROMPT,
-          messages:newMsgs.map(m=>({role:m.role==="bot"?"assistant":"user",content:m.text}))
-        })
-      });
-      if (!res.ok) throw new Error("error");
-      const data = await res.json();
-      let reply = data.content?.map(b=>b.text||"").join("")||"দুঃখিত, উত্তর পেতে সমস্যা হচ্ছে।";
-      reply = reply.replace(/\*\*(.*?)\*\*/g,"$1").replace(/\*(.*?)\*/g,"$1").replace(/#{1,6}\s/g,"").trim();
-      const low = text;
-      const sugg = low.includes("বাতিল")?["👤 সদস্য হওয়ার শর্ত","📚 বই ধারের শর্ত","📞 যোগাযোগ করুন"]
-        :low.includes("সদস্য")?["📝 নিবন্ধন ফর্ম","💚 দাতা সদস্য","📚 বই ধারের শর্ত"]
-        :low.includes("বই")?["📗 ইসলামিক বই","📘 উপন্যাস","📔 আত্মউন্নয়ন"]
-        :low.includes("রক্ত")?["📞 যোগাযোগ করুন","👤 সদস্য হতে চাই"]
-        :["👤 সদস্যপদ","📚 বইসমূহ","📞 যোগাযোগ করুন"];
-      const showContact = low.includes("যোগাযোগ")||low.includes("নম্বর")||low.includes("ফোন")||low.includes("ইমেইল")||low.includes("whatsapp")||low.includes("ফেসবুক")||low.includes("ওয়েবসাইট")||low.includes("পরিচিতি")||low.includes("পাঠাগার সম্পর্কে")||low.includes("সদস্য")||low.includes("দাতা")||low.includes("বই ধার")||low.includes("অবস্থান")||low.includes("কোথায়")||low.includes("ঠিকানা")||low.includes("বই দান");
-      const showBlood = low.includes("রক্ত");
-      setMessages(p=>[...p,{role:"bot",text:reply,sugg,showContact,showBlood}]);
-    } catch(e) { console.error("Fetch error:", e);
-      setMessages(p=>[...p,{role:"bot",text:"দুঃখিত, সংযোগে সমস্যা: "+e.message+""}]);
+function renderGrid() {
+  const counts = {};
+  donors.forEach(d => { 
+    if(d.blood) {
+      const bStr = d.blood.toString().trim().toUpperCase();
+      counts[bStr] = (counts[bStr]||0)+1; 
     }
-    setLoading(false);
-  }
-
-  return (
-    <div style={{fontFamily:"Arial,sans-serif",background:"#f0f4f0",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:12}}>
-      <div style={{width:"100%",maxWidth:460,background:"#fff",borderRadius:20,overflow:"hidden",boxShadow:"0 16px 50px rgba(10,61,32,0.2)",display:"flex",flexDirection:"column",height:"95vh",maxHeight:720}}>
-        
-        <div style={{background:`linear-gradient(135deg,${GD},${G})`,padding:"12px 14px",display:"flex",alignItems:"center",gap:10,flexShrink:0}}>
-          <div style={{width:44,height:44,borderRadius:"50%",overflow:"hidden",flexShrink:0,border:"2px solid #f5d068",position:"relative"}}>
-            <div style={{width:"100%",height:"100%",background:`linear-gradient(135deg,#d4a017,${GO})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>📚</div>
-            <div style={{position:"absolute",bottom:1,right:1,width:10,height:10,background:"#2ecc71",borderRadius:"50%",border:`2px solid ${GD}`}}/>
-          </div>
-          <div style={{flex:1}}>
-            <div style={{fontSize:12.5,fontWeight:700,color:GO,lineHeight:1.3}}>নন্দলালপুর বায়তুল ইলম ইসলামিক পাঠাগার</div>
-            <div style={{fontSize:10,color:"rgba(255,255,255,0.6)",marginTop:1}}>🕌 পোরজনা, শাহজাদপুর, সিরাজগঞ্জ</div>
-          </div>
-          <div style={{background:"rgba(212,160,23,0.2)",border:"1px solid rgba(212,160,23,0.35)",borderRadius:20,padding:"2px 8px",fontSize:10,color:GO}}>🤖 AI</div>
-        </div>
-
-        <div style={{background:"#fdf6e3",padding:"7px 10px",borderBottom:"1px solid #e8e0cc",display:"flex",gap:5,overflowX:"auto",flexShrink:0,scrollbarWidth:"none"}}>
-          {chips.map(([label,msg],i) => (
-            <button key={i} onClick={()=>send(msg)} style={{background:"#fff",border:"1.5px solid #d0c8a8",borderRadius:20,padding:"5px 11px",fontSize:11,color:G,cursor:"pointer",whiteSpace:"nowrap",fontWeight:500,flexShrink:0}}>{label}</button>
-          ))}
-        </div>
-
-        <div ref={chatRef} style={{flex:1,overflowY:"auto",padding:"12px 10px",display:"flex",flexDirection:"column",gap:8,background:"#f0f4f0",minHeight:0}}>
-          <div style={{textAlign:"center",fontSize:10.5,color:"#aaa"}}>আজকে</div>
-          {messages.map((m,i) => (
-            <div key={i}>
-              <div style={{display:"flex",alignItems:"flex-end",gap:6,flexDirection:m.role==="user"?"row-reverse":"row"}}>
-                {m.role==="bot"&&<div style={{width:28,height:28,borderRadius:"50%",background:`linear-gradient(135deg,${G},#d4a017)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,flexShrink:0}}>📚</div>}
-                <div style={{maxWidth:"75%",padding:"9px 13px",borderRadius:16,fontSize:13.5,lineHeight:1.65,whiteSpace:"pre-wrap",wordBreak:"break-word",background:m.role==="user"?G:"#fff",color:m.role==="user"?"#fff":"#111",borderBottomLeftRadius:m.role==="bot"?3:16,borderBottomRightRadius:m.role==="user"?3:16,boxShadow:"0 1px 3px rgba(0,0,0,0.08)"}}>
-                  {m.role==="bot"?linkify(m.text):m.text}
-                </div>
-              </div>
-              {m.showContact&&<ContactCard/>}
-              {m.showBlood&&<BloodCard/>}
-              {m.sugg&&m.sugg.length>0&&(
-                <div style={{display:"flex",flexWrap:"wrap",gap:5,marginLeft:m.role==="bot"?34:0,marginTop:5}}>
-                  {m.sugg.map((s,j)=><button key={j} onClick={()=>send(s)} style={{background:"#fff",border:`1.5px solid ${GL}`,color:G,borderRadius:18,padding:"5px 12px",fontSize:12,cursor:"pointer",fontWeight:500}}>{s}</button>)}
-                </div>
-              )}
-            </div>
-          ))}
-          {loading&&(
-            <div style={{display:"flex",alignItems:"flex-end",gap:6}}>
-              <div style={{width:28,height:28,borderRadius:"50%",background:`linear-gradient(135deg,${G},#d4a017)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13}}>📚</div>
-              <div style={{background:"#fff",borderRadius:16,borderBottomLeftRadius:3,padding:"11px 14px",boxShadow:"0 1px 3px rgba(0,0,0,0.08)",display:"flex",gap:4}}>
-                {[0,.2,.4].map((d,i)=><div key={i} style={{width:7,height:7,background:"#ccc",borderRadius:"50%",animation:`b 1.2s ${d}s infinite`}}/>)}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div style={{background:"#fff",padding:"9px 10px",borderTop:"1px solid #eee",display:"flex",alignItems:"center",gap:7,flexShrink:0}}>
-          <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send(input)} placeholder="যেকোনো প্রশ্ন বাংলায় লিখুন..." style={{flex:1,background:"#f5f5f5",border:"1.5px solid #e0e0e0",borderRadius:20,padding:"9px 13px",fontSize:13,outline:"none"}}/>
-          <button onClick={()=>send(input)} disabled={loading} style={{width:38,height:38,background:`linear-gradient(135deg,${G},${GL})`,border:"none",borderRadius:"50%",color:"#fff",fontSize:15,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,opacity:loading?0.5:1}}>➤</button>
-        </div>
-      </div>
-    </div>
-  );
+  });
+  document.getElementById('bloodGrid').innerHTML = bloodTypes.map(b => `
+    <div class="blood-btn ${activeBlood===b?'active':''}" onclick="filterDonors('${b}')">
+      <div class="blood-type">${b}</div>
+      <div class="blood-count">${counts[b]||0} জন</div>
+    </div>`).join('');
 }
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+function filterDonors(blood) {
+  activeBlood = blood;
+  renderGrid();
+  const filtered = donors.filter(d => d.blood && d.blood.toString().trim().toUpperCase() === blood.toUpperCase());
+  const el = document.getElementById('donorSection');
+  if (!filtered.length) { el.innerHTML = `<div class="empty-state"><div>🩸</div><p>${blood} গ্রুপের কোনো ডোনার নেই</p></div>`; return; }
+  el.innerHTML = `<div class="section-label2">${blood} গ্রুপ — ${filtered.length} জন</div>` +
+    filtered.map((d,i) => {
+      const wa = encodeURIComponent(`আসসালামু আলাইকুম ${d.name||''} ভাই, আমার ${d.blood} রক্ত জরুরি দরকার। সাহায্য করতে পারবেন?`);
+      return `<div class="donor-card">
+        <div class="donor-header"><span class="blood-badge">${d.blood}</span><span class="donor-name">${d.name || 'রক্তদাতা'}</span></div>
+        <div class="donor-area">📍 ${d.area||'এলাকা অজানা'}</div>
+        <div class="donor-actions">
+          <a class="btn-call" href="tel:${d.phone}">📞 কল করুন</a>
+          <a class="btn-wa" href="https://wa.me/88${d.phone}?text=${wa}">💬 WhatsApp</a>
+        </div>
+      </div>`;
+    }).join('');
+}
+
+// ===== রক্তের অনুরোধ সাবমিট =====
+async function submitRequest() {
+  const name = document.getElementById('patientName').value.trim();
+  const blood = document.getElementById('reqBlood').value;
+  const phone = document.getElementById('reqPhone').value.trim();
+  const hospital = document.getElementById('reqHospital').value.trim();
+  const msg = document.getElementById('reqMessage').value.trim();
+  if (!name||!blood||!phone||!hospital) { showToast('⚠️ সব তথ্য পূরণ করুন'); return; }
+
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="loader"></span> ডাটাবেজ চেক করা হচ্ছে...';
+
+  currentRequest = { name, blood, phone, hospital, msg };
+
+  try {
+    const res = await fetch(GOOGLE_SHEET_API);
+    donors = await res.json();
+    const matched = donors.filter(d => d.blood && d.blood.toString().trim().toUpperCase() === blood.toUpperCase());
+
+    // বাটনগুলোর লেবেল ডাইনামিক করা
+    document.getElementById('adminPanelTitle').innerHTML = `🛠️ [${blood}] অ্যাকশন প্যানেল (একটিভ ডোনার: ${matched.length} জন)`;
+    document.getElementById('waGroupBtn').innerHTML = `🟢 [${blood}] হোয়াটসঅ্যাপ গ্রুপে পাঠান`;
+    document.getElementById('smsBlastBtn').innerHTML = `📱 [${blood}] SMS ব্লাস্ট`;
+    document.getElementById('callPanelBtn').innerHTML = `🚨 [${blood}] সরাসরি কল করুন`;
+    document.getElementById('callListTitle').innerHTML = `📞 ${blood} ডোনারদের জরুরি তালিকা`;
+
+    document.getElementById('requestForm').style.display = 'none';
+    document.getElementById('requestSuccess').style.display = 'block';
+    document.getElementById('adminControlPanel').style.display = 'block';
+    document.getElementById('emergencyCallList').style.display = 'none';
+
+    showToast(`✅ ${matched.length} জন ডোনার পাওয়া গেছে!`);
+
+    // Admin-কে WhatsApp notification
+    const adminMsg = `🆘 জরুরি রক্তের অনুরোধ!\n\nরোগী: ${name}\nগ্রুপ: ${blood}\nফোন: ${phone}\nহাসপাতাল: ${hospital}${msg?'\nবার্তা: '+msg:''}`;
+    setTimeout(() => { try { window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(adminMsg)}`); } catch(e){} }, 1800);
+
+  } catch (error) {
+    showToast('⚠️ ডাটা আনতে সমস্যা! নেটওয়ার্ক চেক করুন।');
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '🆘 অনুরোধ পাঠান';
+  }
+}
+
+// ===== Admin Action বাটনগুলো =====
+function shareToWhatsApp() {
+  if (!currentRequest) return;
+  const bloodGroup = currentRequest.blood;
+  const groupLink = WHATSAPP_GROUPS[bloodGroup] || 'https://wa.me/';
+
+  const txt = `🆘 জরুরি রক্তের অনুরোধ!\n\n🩸 রক্তের গ্রুপ: ${currentRequest.blood}\n👤 রোগী: ${currentRequest.name}\n📍 স্থান: ${currentRequest.hospital}\n📞 যোগাযোগ: ${currentRequest.phone}${currentRequest.msg?'\n📝 বার্তা: '+currentRequest.msg:''}\n\n— নন্দলালপুর বায়তুল ইলম রক্তসেবা`;
+  
+  try { navigator.clipboard.writeText(txt); } catch(e){}
+  showToast(`✅ মেসেজ কপি হয়েছে! সরাসরি [${bloodGroup}] গ্রুপে নিয়ে যাওয়া হচ্ছে...`);
+  
+  setTimeout(() => window.open(groupLink, '_blank'), 1200);
+}
+
+function shareToMessenger() {
+  if (!currentRequest) return;
+  const txt = `@everyone 🩸 জরুরি রক্তের প্রয়োজন 🩸\n\n🔴 রক্তের গ্রুপ: ${currentRequest.blood}\n👤 রোগীর নাম: ${currentRequest.name}\n📍 স্থান: ${currentRequest.hospital}\n📞 যোগাযোগ: ${currentRequest.phone}\n${currentRequest.msg?'📝 বিস্তারিত: '+currentRequest.msg+'\n':''}— নন্দলালপুর বায়তুল ইলম রক্তসেবা`;
+  try { navigator.clipboard.writeText(txt); } catch(e){}
+  showToast('✅ মেসেজ কপি হয়েছে! Messenger গ্রুপে পেস্ট করুন।');
+  setTimeout(() => window.open(MESSENGER_GROUP_LINK, '_blank'), 1200);
+}
+
+function blastNormalSMS() {
+  if (!currentRequest) return;
+  const matched = donors.filter(d => d.blood && d.blood.toString().trim().toUpperCase() === currentRequest.blood.toUpperCase());
+  if (!matched.length) { showToast(`⚠️ ${currentRequest.blood} গ্রুপের কোনো ডোনার নেই!`); return; }
+  const phones = matched.map(d => d.phone).join(',');
+  const body = `জরুরি ${currentRequest.blood} রক্ত প্রয়োজন। স্থান: ${currentRequest.hospital}. যোগাযোগ: ${currentRequest.phone} - এসো আলোর পথে`;
+  showToast(`📱 ${matched.length} জন ডোনারের SMS রেডি হচ্ছে...`);
+  setTimeout(() => { window.location.href = `sms:${phones}?body=${encodeURIComponent(body)}`; }, 1000);
+}
+
+function showEmergencyCallPanel() {
+  if (!currentRequest) return;
+  const matched = donors.filter(d => d.blood && d.blood.toString().trim().toUpperCase() === currentRequest.blood.toUpperCase());
+  const container = document.getElementById('callListContainer');
+  container.innerHTML = '';
+  if (!matched.length) { showToast(`⚠️ ${currentRequest.blood} গ্রুপের কোনো ডোনার নেই!`); return; }
+  matched.forEach((d, i) => {
+    const row = document.createElement('div');
+    row.className = 'call-row';
+    row.innerHTML = `<div><div class="call-row-name">${i+1}. ${d.name||'নাম নেই'}</div><div class="call-row-area">📍 ${d.area||'এলাকা অজানা'}</div></div><a href="tel:${d.phone}" class="call-row-btn">📞 কল করুন</a>`;
+    container.appendChild(row);
+  });
+  document.getElementById('emergencyCallList').style.display = 'block';
+  showToast(`📋 ${matched.length} জনের তালিকা প্রস্তুত!`);
+  document.getElementById('emergencyCallList').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===== নিবন্ধন ফর্ম সাবমিট =====
+async function submitDonor() {
+  const name = document.getElementById('donorName').value.trim();
+  const blood = document.getElementById('donorBlood').value;
+  const phone = document.getElementById('donorPhone').value.trim();
+  const area = document.getElementById('donorArea').value.trim();
+  if (!name||!blood||!phone||!area) { showToast('⚠️ সব তথ্য সঠিকভাবে পূরণ করুন'); return; }
+
+  const regSubmitBtn = document.getElementById('regSubmitBtn');
+  regSubmitBtn.disabled = true;
+  regSubmitBtn.innerHTML = '<span class="loader"></span> নিবন্ধন করা হচ্ছে...';
+
+  try {
+    await fetch(GOOGLE_SHEET_API, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, blood, phone, area })
+    });
+
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('registerSuccess').style.display = 'block';
+    showToast('✅ রক্তদাতা হিসেবে নিবন্ধন সফল হয়েছে!');
+    
+    setTimeout(() => {
+      switchTab('find');
+      loadDonorsForFind();
+    }, 1500);
+
+  } catch (e) {
+    console.error(e);
+    showToast('⚠️ নিবন্ধন ব্যর্থ হয়েছে! আবার চেষ্টা করুন।');
+    regSubmitBtn.disabled = false;
+    regSubmitBtn.innerHTML = '✅ নিবন্ধন করুন';
+  }
+}
+
+// শুরুতে রক্ত খুঁজুন ট্যাবের data লোড
+loadDonorsForFind();
 </script>
 </body>
 </html>
